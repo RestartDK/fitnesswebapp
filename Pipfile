@@ -9,7 +9,7 @@ djangorestframework = "*"
 django-rest-knox = "*"
 python-dotenv = "*"
 mysqlclient = "*"
-pymongo = "*"
+pymongo = "==3.12.1"
 djongo = "*"
 dnspython = "*"
 beautifulsoup4 = "*"
@@ -17,4 +17,4 @@ beautifulsoup4 = "*"
 [dev-packages]
 
 [requires]
-python_version = "3.9"
+python_version = "3.12.0"

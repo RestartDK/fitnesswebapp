@@ -23,9 +23,6 @@ class ExercisesMongoDBModel(models.Model):
     sets = models.IntegerField()
     date_created = models.DateTimeField(auto_now_add=True)
 
-    class Meta:
-        pass
-
 
 
     
