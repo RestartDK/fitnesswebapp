@@ -10,6 +10,8 @@ build/
 lib/
 *.egg-info
 *.lock
+
+# Environment variables
 .env
 
 # pytest
