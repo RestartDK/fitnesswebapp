@@ -10,7 +10,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Flat_tick_icon.svg/1024px-Flat_tick_icon.svg.png" className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
+        <p>Fitness!</p>
         <p>
           <button type="button" onClick={() => setCount((count) => count + 1)}>
             count is: {count}

@@ -14,7 +14,6 @@ from pathlib import Path
 import os
 import sys
 from dotenv import load_dotenv
-
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -42,7 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'apps.frontend',
+    'rest_framework',
+    'apps.api',
+    'apps.scraper',
 ]
 
 MIDDLEWARE = [
@@ -90,7 +91,7 @@ DATABASES = {
     },
     'mongodb': {
         'ENGINE': 'djongo',
-        'NAME': 'fitnessWebApp',  # Choose a name for your MongoDB database
+        'NAME': os.getenv("MONITORING_DB_NAME"),  # Choose a name for your MongoDB database
     },
 }
 
@@ -158,3 +159,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Database router settings
 DATABASE_ROUTERS = [BASE_DIR / "backend/routers.py"]
+
+# Rest framework settings
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ]
+}

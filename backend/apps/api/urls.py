@@ -13,18 +13,12 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, include, re_path
-from django.conf import settings
-from django.views.static import serve
-from django.views.generic import TemplateView
+from django.urls import path
+from apps.api.views import MuscleGroupView, ExerciseView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include(("apps.api.urls", "apps.api"), namespace="api")),
-    re_path(r"^static/(?P<path>.*)$", serve, {"document_root": settings.STATIC_ROOT}),
-    re_path(
-        r"^.*$",
-        TemplateView.as_view(template_name="base.html")
-    )
+    path('muscle_group/', MuscleGroupView.as_view(), name="muscle_groups-all"),
+    path('exercise/', ExerciseView.as_view(), name="exercises-all"),
 ]
+
+

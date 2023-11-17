@@ -10,9 +10,10 @@ django-rest-knox = "*"
 python-dotenv = "*"
 mysqlclient = "*"
 pymongo = "==3.12.1"
-djongo = "*"
 dnspython = "*"
 beautifulsoup4 = "*"
+mongoengine = "*"
+djongo = "*"
 
 [dev-packages]
 
