@@ -1,10 +1,16 @@
 import React from "react";
+import MaxWidthWrapper from "./components/MaxWidthWrapper";
+import Navbar from "./components/Navbar";
+import Dashboard from "./components/Dashboard";
 
 function App() {
   return (
-    <div className="flex justify-end">
-      hello world
-    </div>
+    <>
+      <Navbar />
+      <MaxWidthWrapper>
+        <Dashboard />
+      </MaxWidthWrapper>
+    </>
   );
 }
 
