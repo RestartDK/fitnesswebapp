@@ -1,5 +1,7 @@
-import DeleteButton from "./CircularButtons";
-import { buttonVariants } from "./button";
+import { Button } from "./button";
+import { X } from "lucide-react";
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import axios from 'axios';
 
 interface Regimens {
     name: string;
@@ -34,6 +36,12 @@ const regimens: Regimens[] = [
     }
 ];
 
+export const fetchScraperTest = async (exercise: string) => {
+    const res = await axios.get(`http://localhost:8000/api/scraper/exercisemuscle/${exercise}/`);
+
+    return res.data;
+}
+
 function Stats({ value }: StatsProps) {
     return (
         <div className="grid grid-cols-1 gap-px">
@@ -53,19 +61,25 @@ function RegimenList() {
                     </div>
                     <div className="flex flex-shrink-0 items-center gap-x-4 ml-4">
                         <Stats value={regimen.value} />
-                        <DeleteButton />
+                        <Button className="bg-indigo-600 hover:bg-indigo-500" size="icon">
+                            <X className="h-4 w-4" aria-hidden="true" />
+                        </Button>
                     </div>
                 </li>
             ))}
-            <li className="flex items-center py-5">
-                <a className={buttonVariants({variant: "default"})}>Add Regimen</a>
-            </li>
+            <Button className="bg-indigo-600 hover:bg-indigo-500">Add Regimen</Button>
         </ul>
     );
 }
 
 
 export default function Dashboard() {
+    // Access the client
+    const queryClient = useQueryClient()
+    const { isLoading, error, data } = useQuery({ queryKey: ['scraperData'], queryFn: () => fetchScraperTest("pushdown") });
+
+    console.log(data);
+
     return (
         <div className="py-10">
             <header className="mx-auto max-w-7xl sm:px-6 lg:px-7">
@@ -73,6 +87,7 @@ export default function Dashboard() {
             </header>
             <main className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <RegimenList />
+                
             </main>
         </div>
     );

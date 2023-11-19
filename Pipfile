@@ -15,6 +15,7 @@ beautifulsoup4 = "*"
 mongoengine = "*"
 djongo = "*"
 requests = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 
