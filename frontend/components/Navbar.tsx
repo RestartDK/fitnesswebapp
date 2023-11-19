@@ -3,7 +3,7 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { AlignJustify, Bell, X, Dumbbell } from "lucide-react";
 
 const navigation = [
-    { name: "Dashboard", href: "#", current: true },
+    { name: "Dashboard", href: "/", current: true },
     { name: "Profile", href: "#", current: false },
 ];
 
