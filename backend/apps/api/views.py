@@ -1,23 +1,31 @@
-from rest_framework import generics
+from django.shortcuts import get_object_or_404
+from rest_framework import viewsets
 from .models import MuscleGroup, Exercise, TrainingPlan, TrainingDay, DayExercise
-from .serializers import MuscleGroupSerializer, ExerciseSerializer, TrainingPlanSerializer, TrainingDaySerializer, DayExerciseSerializer
+from .serializers import (MuscleGroupSerializer, ExerciseSerializer, TrainingPlanSerializer, TrainingDaySerializer, DayExerciseSerializer)
 
-class MuscleGroupView(generics.ListCreateAPIView):
+class MuscleGroupViewSet(viewsets.ModelViewSet):
     queryset = MuscleGroup.objects.all()
     serializer_class = MuscleGroupSerializer
 
-class ExerciseView(generics.ListCreateAPIView):
-    queryset = Exercise.objects.select_related('muscle_group').all()
+class ExerciseViewSet(viewsets.ModelViewSet):
+    queryset = Exercise.objects.all()
     serializer_class = ExerciseSerializer
 
-class TrainingPlanView(generics.ListCreateAPIView):
-    queryset = TrainingPlan.objects.select_related('user').all()
+class TrainingPlanViewSet(viewsets.ModelViewSet):
+    queryset = TrainingPlan.objects.all()
     serializer_class = TrainingPlanSerializer
 
-class TrainingDayView(generics.ListCreateAPIView):
-    queryset = TrainingDay.objects.select_related('training_plan').all()
+    def get_object(self, queryset=None, **kwargs):
+        item = self.kwargs.get('pk')
+        return get_object_or_404(TrainingPlan, plan_name=item)
+
+    def get_queryset(self):
+        return TrainingPlan.objects.all()
+
+class TrainingDayViewSet(viewsets.ModelViewSet):
+    queryset = TrainingDay.objects.all()
     serializer_class = TrainingDaySerializer
 
-class DayExerciseView(generics.ListCreateAPIView):
-    queryset = DayExercise.objects.select_related('training_day', 'exercise').all()
+class DayExerciseViewSet(viewsets.ModelViewSet):
+    queryset = DayExercise.objects.all()
     serializer_class = DayExerciseSerializer
