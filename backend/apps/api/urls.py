@@ -14,11 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path, include
-from apps.api.views import MuscleGroupView, ExerciseView
+from apps.api.views import MuscleGroupView, ExerciseView, TrainingPlanView, TrainingDayView, DayExerciseView
 
 urlpatterns = [
     path('muscle_group/', MuscleGroupView.as_view(), name="muscle_groups-all"),
     path('exercise/', ExerciseView.as_view(), name="exercises-all"),
+    path('training_plan/', TrainingPlanView.as_view(), name="training_plans-all"),
+    path('training_day/', TrainingDayView.as_view(), name="training_days-all"),
+    path('day_exercise/', DayExerciseView.as_view(), name="day_exercises-all"),
     path('scraper/', include('apps.scraper.urls'))
 ]
 
