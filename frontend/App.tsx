@@ -7,17 +7,21 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Trainingplan from "./components/Trainingplan";
 import Error from "./components/Error";
+import { Toaster } from "react-hot-toast";
+import Editplan from "./components/Editplan";
 
 const queryClient = new QueryClient();
 
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
+      <Toaster position="top-center" reverseOrder={false}/>
       <Navbar />
       <MaxWidthWrapper>
       <Routes>
-        <Route exact path="/" element={<Dashboard />} />
-        <Route path="/training_plan/:plan_name" element={<Trainingplan />} /> 
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/training_plan/:slug" element={<Trainingplan />} /> 
+        <Route path="/editplan" element={<Editplan />} /> 
         <Route path="/error404" element={<Error />} /> 
       </Routes>
       </MaxWidthWrapper>

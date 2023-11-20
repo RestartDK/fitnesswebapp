@@ -11,17 +11,6 @@ class ExerciseViewSet(viewsets.ModelViewSet):
     queryset = Exercise.objects.all()
     serializer_class = ExerciseSerializer
 
-class TrainingPlanViewSet(viewsets.ModelViewSet):
-    queryset = TrainingPlan.objects.all()
-    serializer_class = TrainingPlanSerializer
-
-    def get_object(self, queryset=None, **kwargs):
-        item = self.kwargs.get('pk')
-        return get_object_or_404(TrainingPlan, plan_name=item)
-
-    def get_queryset(self):
-        return TrainingPlan.objects.all()
-
 class TrainingDayViewSet(viewsets.ModelViewSet):
     queryset = TrainingDay.objects.all()
     serializer_class = TrainingDaySerializer
@@ -29,3 +18,15 @@ class TrainingDayViewSet(viewsets.ModelViewSet):
 class DayExerciseViewSet(viewsets.ModelViewSet):
     queryset = DayExercise.objects.all()
     serializer_class = DayExerciseSerializer
+
+class TrainingPlanViewSet(viewsets.ModelViewSet):
+    queryset = TrainingPlan.objects.all()
+    serializer_class = TrainingPlanSerializer
+
+    def get_object(self, queryset=None, **kwargs):
+        item = self.kwargs.get('pk')
+        return get_object_or_404(TrainingPlan, slug=item)
+
+    def get_queryset(self):
+        return TrainingPlan.objects.prefetch_related('training_days__exercises').all()
+

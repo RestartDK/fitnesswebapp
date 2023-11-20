@@ -1,28 +1,15 @@
-import { Button } from "./ui/button";
+import { Button, buttonVariants } from "./ui/button";
 import { X } from "lucide-react";
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { Link } from "react-router-dom";
-import axios from 'axios';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Link, useLocation } from "react-router-dom";
 import { TailSpin } from 'react-loader-spinner'
-
-
-interface Regimens {
-    id: number;
-    user: number;
-    plan_name: string;
-    start_date: string;
-    end_date: string;
-    workout_percentage: number;
-}
-
+import type { TrainingPlan } from "~/lib/types";
+import { fetchTrainingPlanSimple, deleteTrainingPlan } from "../api/api";
+import toast from "react-hot-toast";
+import Error from "./Error";
+import { useEffect } from "react";
 interface StatsProps {
     workout_percentage: number;
-}
-
-export const fetchScraperTest = async () => {
-    const res = await axios.get(`http://localhost:8000/api/training_plan/`);
-
-    return res.data;
 }
 
 function Stats({ workout_percentage }: StatsProps) {
@@ -35,9 +22,28 @@ function Stats({ workout_percentage }: StatsProps) {
 }
 
 function RegimenList() {
-    // Access the client
-    const queryClient = useQueryClient()
-    const { isLoading, error, data } = useQuery({ queryKey: ['regimenData'], queryFn: () => fetchScraperTest() });
+    const queryClient = useQueryClient();
+    const { isLoading, error, data } = useQuery({ queryKey: ['regimenData'], queryFn: () => fetchTrainingPlanSimple() });
+
+    console.log(data);
+
+    const deleteMutation = useMutation({
+        mutationFn: (slug: string) => {
+            return deleteTrainingPlan(slug);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: ['regimenData']});
+            toast.success("Successfully deleted the training plan!");
+        },
+        onError: (error) => {
+            // Handle error
+            toast.error("Error has occured!");
+        },
+    });
+
+    const handleDelete = (slug: string) => {
+        deleteMutation.mutate(slug);
+    };
 
     if (isLoading) return <div className="flex justify-center items-center w-full h-full">
         <TailSpin
@@ -50,24 +56,24 @@ function RegimenList() {
         />
     </div>
 
-    if (error) return <div className="w-full h-full place-content-center">Error has occured!</div>
+    if (error) return <div className="w-full h-full place-content-center"><Error /></div>
     
     return (
         <ul role="list" className="divide-y divide-gray-100">
-            {data.map((regimen: Regimens) => (
+            {data && data.map((regimen: TrainingPlan) => (
                 <li key={regimen.id} className="flex items-center py-5">
                     <div className="flex-1 truncate">
-                        <Link to={`/training_plan/${regimen.plan_name}`} className="text-2xl font-semibold leading-8 text-gray-900 hover:text-gray-700 truncate">{regimen.plan_name}</Link>
+                        <Link to={`/training_plan/${regimen.slug}`} className="text-2xl font-semibold leading-8 text-gray-900 hover:text-gray-700 truncate">{regimen.plan_name}</Link>
                     </div>
                     <div className="flex flex-shrink-0 items-center gap-x-4 ml-4">
                         <Stats workout_percentage={regimen.workout_percentage} />
-                        <Button className="bg-indigo-600 hover:bg-indigo-500" size="icon">
+                        <Button onClick={() => handleDelete(regimen.slug)} className="bg-red-500 hover:bg-red-500/90" size="icon">
                             <X className="h-4 w-4" aria-hidden="true" />
                         </Button>
                     </div>
                 </li>
             ))}
-            <Button className="bg-indigo-600 hover:bg-indigo-500">Add Regimen</Button>
+            <Link className={buttonVariants({ variant: "default", className: "bg-indigo-600 hover:bg-indigo-500" })} to={`/editplan/`}>Add Regimen</Link>
         </ul>
     );
 }

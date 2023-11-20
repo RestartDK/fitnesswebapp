@@ -17,7 +17,7 @@ class ExerciseAdmin(admin.ModelAdmin):
 
 @admin.register(TrainingPlan)
 class TrainingPlanAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'plan_name', 'start_date', 'end_date')
+    list_display = ('id', 'user', 'plan_name', 'slug', 'start_date', 'end_date')
     ordering = ('id',)
     
     def workout_percentage(self, obj):

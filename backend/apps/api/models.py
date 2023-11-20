@@ -20,6 +20,7 @@ class TrainingPlan(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     plan_name = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=100)
     start_date = models.DateField()
     end_date = models.DateField()
     
