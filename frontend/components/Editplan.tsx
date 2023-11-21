@@ -16,6 +16,7 @@ import { createTrainingPlan, scrapeMuscleGroups } from '../api/api';
 import type { MuscleGroupTarget, TrainingPlan } from '../lib/types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 interface Day {
     day_of_week: string;
@@ -39,6 +40,7 @@ interface FormData {
 
 function TrainingPlanForm() {
     const queryClient = useQueryClient();
+    const navigate = useNavigate();
     const [days, setDays] = useState<Day[]>([]);
     const { register, handleSubmit, setValue } = useForm();
 
@@ -55,6 +57,7 @@ function TrainingPlanForm() {
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ['newRegimenData']});
             toast.success("Successfully created the training plan!");
+            navigate('/'); // Redirect to the homepage
         },
         onError: (error) => {
             // Handle error
