@@ -26,11 +26,11 @@ def scrape_data(request, exercise_name):
                 value = cell.get_text(strip=True)
                 if value:
                     # Map 'Some' and 'Yes' to muscle group, ignore empty cells
-                    muscle_groups.append((headers[i], value))
+                    muscle_groups.append(headers[i])
             break
 
     # After scraping, serialize the data
-    serializer = MuscleGroupSerializer(data=[{'muscle_group': group, 'target_level': level} for group, level in muscle_groups], many=True)
+    serializer = MuscleGroupSerializer(data=[{'muscle_group': group} for group in muscle_groups], many=True)
     
     # Check if the serializer is valid
     if serializer.is_valid():
@@ -39,4 +39,3 @@ def scrape_data(request, exercise_name):
     else:
         # If invalid, return an error response
         return Response(serializer.errors, status=400)
-

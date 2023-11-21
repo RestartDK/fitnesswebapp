@@ -16,7 +16,7 @@ function Stats({ workout_percentage }: StatsProps) {
     return (
         <div className="grid grid-cols-1 gap-px">
             <p className="text-sm font-medium leading-6 text-gray-400">Muscle Group Targeted</p>
-            <p className="mt-2 text-4xl font-semibold tracking-tight text-black">{workout_percentage ? `${Math.floor(workout_percentage)}%` : "Not Found"}</p>
+            <p className="mt-2 text-4xl font-semibold tracking-tight text-black">{workout_percentage ? `${Math.floor(workout_percentage)}%` : "N/A"}</p>
         </div>
     );
 }
@@ -55,8 +55,6 @@ function RegimenList() {
         visible={true}
         />
     </div>
-
-    if (error) return <div className="w-full h-full place-content-center"><Error /></div>
     
     return (
         <ul role="list" className="divide-y divide-gray-100">
@@ -85,7 +83,7 @@ export default function Dashboard() {
             <header className="mx-auto max-w-7xl sm:px-6 lg:px-7">
                 <h1 className="text-4xl font-bold leading-tight tracking-tight text-gray-900">Training Regime</h1>
             </header>
-            <main className="h-screen mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <main className="h-screen mx-auto py-6 max-w-7xl sm:px-6 lg:px-8">
                 <RegimenList />
             </main>
         </div>

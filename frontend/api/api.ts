@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { TrainingPlan, TrainingPlans } from '~/lib/types';
+import type { MuscleGroupTarget } from '~/lib/types';
 
 // Create an Axios instance
 const api = axios.create({
@@ -30,7 +31,7 @@ export const fetchTrainingPlanSimple = async (): Promise<TrainingPlans> => {
 };
 
 export const fetchTrainingPlan = async (slug: string): Promise<TrainingPlan> => {
-    const res = await api.get(`http://localhost:8000/api/training_plan/${slug}/`); 
+    const res = await api.get(`training_plan/${slug}/`); 
     return res.data;
 }
 
@@ -39,3 +40,12 @@ export const deleteTrainingPlan = async (slug: string) => {
     return res.data;
 };
 
+export const createTrainingPlan = async (trainingPlanData: TrainingPlan) => {
+    const res = await api.post('training_plan/', trainingPlanData);
+    return res.data;
+};
+
+export const scrapeMuscleGroups = async (exercise: string): Promise<MuscleGroupTarget> => {
+    const res = await api.get(`scraper/exercisemuscle/${exercise}/`);
+    return res.data;
+}

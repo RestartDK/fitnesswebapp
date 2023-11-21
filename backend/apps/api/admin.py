@@ -3,7 +3,7 @@ from .models import MuscleGroup, Exercise, TrainingPlan, TrainingDay, DayExercis
 
 @admin.register(MuscleGroup)
 class MuscleGroupAdmin(admin.ModelAdmin):
-    list_display = ('id', 'muscle_group_name')
+    list_display = ('id', 'muscle_group')
     ordering = ('id',)
 
 @admin.register(Exercise)

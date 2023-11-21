@@ -56,13 +56,8 @@ function Table({ trainingPlan }: TableProps) {
                                             </td>
                                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{exercise.sets}</td>
                                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{exercise.reps}</td>
-                                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                {exercise.exercise.muscle_groups.map(mg => mg.muscle_group_name).join(', ')}
-                                            </td>
-                                            <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                                                <a href="#" className="text-indigo-600 hover:text-indigo-900">
-                                                    Edit<span className="sr-only">, {exercise.exercise.exercise_name}</span>
-                                                </a>
+                                            <td className="px-3 py-4 text-sm w-1/2 text-gray-500">
+                                                {exercise.exercise.muscle_groups.map(mg => mg.muscle_group).join(', ')}
                                             </td>
                                         </tr>
                                     ))}
@@ -121,8 +116,6 @@ export default function Trainingplan() {
                     </h2>
                 </div>
                 <div className="mt-4 md:mt-0 flex gap-3">
-                    <Button variant={"outline"}> <Pen className="mr-2 h-4 w-4" /> Edit</Button>
-                    <Button variant={"default"}> <Plus className="mr-2 h-4 w-4" /> Add Exercise</Button>
                     <Button variant={"destructive"} onClick={() => deleteMutation.mutate(slug)}> <X className="mr-2 h-4 w-4" /> Delete</Button>
                 </div>
             </div>

@@ -3,10 +3,10 @@ from django.contrib.auth.models import User
 
 class MuscleGroup(models.Model):
     id = models.AutoField(primary_key=True)
-    muscle_group_name = models.CharField(max_length=100)
+    muscle_group = models.CharField(max_length=100)
 
     def __str__(self) -> str:
-        return self.muscle_group_name
+        return self.muscle_group
 
 class Exercise(models.Model):
     id = models.AutoField(primary_key=True)
