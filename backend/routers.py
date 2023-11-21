@@ -7,12 +7,12 @@ class MongoDBRouter:
     """
 
     def db_for_read(self, model, **hints):
-        if model._meta.app_label == BASE_DIR/'frontend':  # Replace 'yourappname' with the actual app name
+        if model._meta.app_label == BASE_DIR/'api':  # Replace 'yourappname' with the actual app name
             return 'mongodb'
         return None
 
     def db_for_write(self, model, **hints):
-        if model._meta.app_label == BASE_DIR/'frontend':
+        if model._meta.app_label == BASE_DIR/'api':
             return 'mongodb'
         return None
 
