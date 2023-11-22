@@ -12,7 +12,7 @@ class ExerciseMuscleGroup(models.Model):
         model_container=MuscleGroupItem,
     )
     
-    objects = models.DjongoManager()
+    
 
     class Meta:
         app_label = 'apps.scraper'
