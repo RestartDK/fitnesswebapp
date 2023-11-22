@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { set, useForm } from 'react-hook-form';
 import { Button } from "./ui/button";
 import { Input } from './ui/input';
 import {
     Table,
     TableBody,
-    TableCaption,
     TableCell,
     TableHead,
     TableHeader,
@@ -14,7 +13,7 @@ import {
 import { X } from 'lucide-react';
 import { createTrainingPlan, scrapeMuscleGroups } from '../api/api';
 import type { MuscleGroupTarget, TrainingPlan } from '../lib/types';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
@@ -39,6 +38,10 @@ interface FormData {
     [key: string]: any; // for dynamic keys like `exerciseName${dayIndex}`
 }
 
+interface ExerciseData {
+    [key: string]: string | number;
+}
+
 function TrainingPlanForm() {
     const queryClient = useQueryClient();
     const navigate = useNavigate();
@@ -60,19 +63,19 @@ function TrainingPlanForm() {
             toast.success("Successfully created the training plan!");
             navigate('/'); // Redirect to the homepage
         },
-        onError: (error) => {
+        onError: () => {
             // Handle error
             toast.error("Error has occured!");
         },
     });
 
     const onSubmit = async (data: FormData) => {
+        let isSubmissionValid = true;
         // Process each day and exercise to fetch muscle groups
         const processedDays = await Promise.all(days.map(async (day) => {
             const processedExercises = await Promise.all(day.exercises.map(async (exercise) => {
                 try {
                     const response = await scrapeMuscleGroupsForExercise(exercise.exercise_name);
-                    // Keep 'muscle_group_name' as per your type definition
                     const muscleGroups = response.map(item => ({ muscle_group: item.muscle_group }));
                     return {
                         exercise: {
@@ -83,7 +86,8 @@ function TrainingPlanForm() {
                         reps: exercise.reps
                     };
                 } catch (error) {
-                    console.error("Error fetching muscle groups for exercise:", exercise.exercise_name, error);
+                    toast.error(`An error occurred with "${exercise.exercise_name}". Please check the exercise name.`);
+                    isSubmissionValid = false;
                     return {
                         exercise: {
                             exercise_name: exercise.exercise_name,
@@ -98,6 +102,11 @@ function TrainingPlanForm() {
             return { day_of_week: day.day_of_week, exercises: processedExercises };
         }));
 
+        if (!isSubmissionValid) {
+            // Prevent form submission if any error occurred
+            return;
+        }
+
         const formattedData: TrainingPlan = {
             user: 1, // Assuming user ID is static for now
             plan_name: data.planName,
@@ -110,12 +119,12 @@ function TrainingPlanForm() {
         createMutation.mutate(formattedData);
     };
 
-    const addExercise = (dayIndex, exerciseData) => {
+    const addExercise = (dayIndex: number, exerciseData: ExerciseData) => {
         const updatedDays = [...days];
         updatedDays[dayIndex].exercises.push({
-            exercise_name: exerciseData[`exercise_name${dayIndex}`],
-            sets: exerciseData[`sets${dayIndex}`],
-            reps: exerciseData[`reps${dayIndex}`],
+            exercise_name: exerciseData[`exercise_name${dayIndex}`] as string,
+            sets: exerciseData[`sets${dayIndex}`] as number,
+            reps: exerciseData[`reps${dayIndex}`] as number,
             muscle_groups: [] // Initialize empty muscle groups
         });
         setDays(updatedDays);
@@ -124,7 +133,7 @@ function TrainingPlanForm() {
         setValue(`reps${dayIndex}`, '');
     };
 
-    const removeExercise = (dayIndex, exerciseIndex) => {
+    const removeExercise = (dayIndex: number, exerciseIndex: number) => {
         const updatedDays = [...days];
         updatedDays[dayIndex].exercises.splice(exerciseIndex, 1);
         setDays(updatedDays);
@@ -134,13 +143,13 @@ function TrainingPlanForm() {
         setDays([...days, { day_of_week: '', exercises: [], isFinished: false }]);
     };
 
-    const finishDay = (dayIndex) => {
+    const finishDay = (dayIndex: number) => {
         const updatedDays = [...days];
         updatedDays[dayIndex].isFinished = true;
         setDays(updatedDays);
     };
 
-    const removeDay = (dayIndex) => {
+    const removeDay = (dayIndex: number) => {
         setDays(days.filter((_, index) => index !== dayIndex));
     };
 
@@ -211,7 +220,7 @@ function TrainingPlanForm() {
                 ))}
                 <div className='flex gap-3'>
                     <Button type="button" onClick={addDay} className="bg-green-700 hover:bg-green-500 text-white">Add Day</Button>
-                    <Button type="submit" className="bg-green-700 hover:bg-green-500 text-white">Submit Plan</Button>
+                    <Button type="submit" className="bg-indigo-600 hover:bg-indigo-500 text-white">Submit Plan</Button>
                 </div>
             </form>
         </div>

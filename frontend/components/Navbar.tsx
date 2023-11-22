@@ -66,7 +66,7 @@ export default function Navbar() {
                             <span className="sr-only">Open user menu</span>
                             <img
                             className="h-8 w-8 rounded-full"
-                            src="https://i.pinimg.com/originals/2f/9c/11/2f9c11f9e55efbf1791f12c06d60729b.jpg"
+                            src="https://cdn.freebiesupply.com/logos/large/2x/react-1-logo-png-transparent.png"
                             alt=""
                             />
                         </Menu.Button>

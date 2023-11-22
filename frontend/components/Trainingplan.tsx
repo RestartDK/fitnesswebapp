@@ -13,7 +13,7 @@ import { useEffect } from "react";
 
 // Define the expected parameters in the URL
 type RouteParams = {
-    plan_name: string;
+    slug: string;
 };
 
 interface TableProps {
@@ -76,19 +76,20 @@ export default function Trainingplan() {
     const queryClient = useQueryClient();
     const navigate = useNavigate();
     const { slug } = useParams<RouteParams>();
+    const safeSlug = slug || 'defaultSlug';
 
-    const { isLoading, error, data } = useQuery({ queryKey: ['regimenSingleData'], queryFn: () => fetchTrainingPlan(slug) });
+    const { isLoading, error, data } = useQuery({ queryKey: ['regimenSingleData'], queryFn: () => fetchTrainingPlan(safeSlug) });
 
     const deleteMutation = useMutation({
         mutationFn: (slug: string) => {
-            return deleteTrainingPlan(slug);
+            return deleteTrainingPlan(safeSlug);
         },
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ['regimenSingleData']});
             toast.success("Successfully deleted the training plan!");
             navigate('/'); // Redirect to the homepage
         },
-        onError: (error) => {
+        onError: () => {
             // Handle error
             toast.error("Error has occured!");
         },
@@ -116,7 +117,7 @@ export default function Trainingplan() {
                     </h2>
                 </div>
                 <div className="mt-4 md:mt-0 flex gap-3">
-                    <Button variant={"destructive"} onClick={() => deleteMutation.mutate(slug)}> <X className="mr-2 h-4 w-4" /> Delete</Button>
+                    <Button variant={"destructive"} onClick={() => deleteMutation.mutate(safeSlug)}> <X className="mr-2 h-4 w-4" /> Delete</Button>
                 </div>
             </div>
             <div className="border-t border-gray-200">

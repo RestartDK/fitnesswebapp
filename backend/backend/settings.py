@@ -160,7 +160,7 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Database router settings
-DATABASE_ROUTERS = [BASE_DIR / "backend/routers.py"]
+DATABASE_ROUTERS = ['apps.scraper.routers.MongoDBRouter']
 
 # Rest framework settings
 REST_FRAMEWORK = {
