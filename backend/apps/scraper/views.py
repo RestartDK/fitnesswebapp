@@ -1,6 +1,8 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from .models import ExerciseMuscleGroup
 from .serializers import MuscleGroupSerializer
+from rest_framework import status
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import unquote
