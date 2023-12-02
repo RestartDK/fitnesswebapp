@@ -1,27 +1,15 @@
-from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.response import Response
-from .models import ExerciseMuscleGroup, MuscleGroupItem
+from .models import ExerciseMuscleGroup
 from .serializers import MuscleGroupSerializer
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import unquote
-import logging
+
 @api_view(['GET'])
 def scrape_data(request, exercise_name):
     exercise_name = unquote(exercise_name)
-
-    logger = logging.getLogger(__name__)
-    
-    # Check for existing data
-    exercise_muscle_group = ExerciseMuscleGroup.objects.filter(exercise_name__icontains=exercise_name).first()
-    logger.warning("cHECKING IF STATEMENT")
-    if exercise_muscle_group:
-        logger.warning("We arrived")
-        logger.warning(exercise_muscle_group)
-        serializer = MuscleGroupSerializer([{'muscle_group': mg} for mg in exercise_muscle_group.muscle_groups], many=True)
-        return Response(serializer)
 
     # Web scraping for new exercise
     url = "https://en.wikipedia.org/wiki/List_of_weight_training_exercises"
