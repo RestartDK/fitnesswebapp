@@ -22,7 +22,7 @@ This project uses:
 
 - Create new `.env` file with your msql and mongodb credentials (see `.env.local` for exact credentials)
 
-Create a new env for the project.
+Create a new shell for the project.
 ```bash
 pipenv shell
 ```
