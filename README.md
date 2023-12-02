@@ -30,4 +30,4 @@ If you have problems with a CORS problem check the following:
 - Make sure url is `http://localhost:8000` not `http://127.0.0.1:8000`
 
 If you have a problem with running the backend run the following command:
-`pipenv run python backend/manage.py runserver`
+```pipenv run python backend/manage.py runserver```
