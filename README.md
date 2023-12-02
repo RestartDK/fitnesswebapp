@@ -1,4 +1,5 @@
 # 🏋️‍♂️ Fitness Exercise Scraping Webapp
+![demovid](https://github.com/RestartDK/fitnesswebapp/assets/58006998/2ec909cc-1334-447e-a9ea-ce90409bfdae)
 This web application scrapes various fitness websites to gather data on different exercises and their corresponding muscle groups. It aggregates this data to provide a comprehensive overview of your training plan, highlighting the percentage of muscle groups targeted in your workouts.
 
 # 🌟 Features
