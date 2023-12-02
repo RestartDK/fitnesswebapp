@@ -1,9 +1,9 @@
 from rest_framework import serializers
 from .models import MuscleGroup, Exercise, TrainingPlan, TrainingDay, DayExercise
-import logging
-# Get an instance of a logger
-logger = logging.getLogger(__name__)
 
+"""
+Transforming data models into readable data for REST API
+"""
 class MuscleGroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = MuscleGroup
@@ -32,7 +32,7 @@ class DayExerciseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DayExercise
-        fields = ('id', 'exercise', 'sets', 'reps')  # Removed 'training_day' from fields
+        fields = ('id', 'exercise', 'sets', 'reps')
 
     def create(self, validated_data):
         exercise_data = validated_data.pop('exercise')

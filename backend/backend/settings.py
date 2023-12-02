@@ -169,7 +169,7 @@ REST_FRAMEWORK = {
     ]
 }
 
-
+# Only allow cors for following address, change for prod
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]

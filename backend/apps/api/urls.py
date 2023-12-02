@@ -2,6 +2,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import MuscleGroupViewSet, ExerciseViewSet, TrainingPlanViewSet, TrainingDayViewSet, DayExerciseViewSet
 
+# Make different routes depending on api endpoint
 router = DefaultRouter()
 router.register(r'muscle_group', MuscleGroupViewSet)
 router.register(r'exercise', ExerciseViewSet)
