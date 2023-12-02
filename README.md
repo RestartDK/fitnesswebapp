@@ -20,10 +20,26 @@ This project uses:
 # ✏️ Getting Started
 
 - Create new `.env` file with your msql and mongodb credentials (see `.env.local` for exact credentials)
-- `pipenv shell` - This will create a new env for the project.
-- `pipenv install` - This will build/install the project dependencies of backend services
-- `python backend/manage.py runserver` - Run this for check if server it's ok
-- `npm run dev` - Run this for the frontend to run locally
+
+Create a new env for the project.
+```bash
+pipenv shell
+```
+
+Build/install the project dependencies of backend services
+```bash
+pipenv install
+```
+
+Run this command for the backend to run locally
+```bash
+python backend/manage.py runserver
+```
+
+Run this command for the frontend to run locally
+```bash
+npm run dev
+```
 
 # ❓ Potential Issues
 If you have problems with a CORS problem check the following:
