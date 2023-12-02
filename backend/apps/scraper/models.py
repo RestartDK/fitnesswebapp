@@ -12,8 +12,6 @@ class ExerciseMuscleGroup(models.Model):
         model_container=MuscleGroupItem,
     )
     
-    
-
     class Meta:
         app_label = 'apps.scraper'
 
