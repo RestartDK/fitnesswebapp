@@ -7,7 +7,6 @@ node_modules
 .mypy_cache
 dist/
 build/
-lib/
 *.egg-info
 *.lock
 
